@@ -2,19 +2,10 @@
   "users": [
     {
       "name": "Hello",
-      "id": "b74e"
-    },
-    {
-      "id": "e053",
-      "name": "Danila"
-    },
-    {
-      "id": "fd3b",
-      "name": "Danila"
-    },
-    {
-      "id": "c228",
-      "name": "Danila"
+      "id": "b74e",
+      "role": "user",
+      "login": "danila.derenchenko@yandex.ru",
+      "password": "12345678"
     }
   ],
   "notes": [
