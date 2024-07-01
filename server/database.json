@@ -1,10 +1,31 @@
 {
   "users": [
     {
-      "name": "Hello",
+      "username": "Nikita12",
       "id": "b74e",
-      "role": "user",
-      "login": "danila.derenchenko@yandex.ru",
+      "role": "executor",
+      "login": "executor@mail.ru",
+      "password": "12345678"
+    },
+    {
+      "username": "Dasha",
+      "id": "b79e",
+      "role": "signer",
+      "login": "signerDasha@mail.ru",
+      "password": "12345678"
+    },
+    {
+      "username": "Alena",
+      "id": "b80e",
+      "role": "registrator",
+      "login": "registratorAlena@mail.ru",
+      "password": "12345678"
+    },
+    {
+      "username": "Dasha",
+      "id": "b79e",
+      "role": "signer",
+      "login": "signerDasha@mail.ru",
       "password": "12345678"
     }
   ],

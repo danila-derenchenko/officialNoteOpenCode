@@ -3,6 +3,7 @@
         <form v-on:submit="checkLogin" class="regForm">
             <p class="regFormIntro">Вход в систему</p>
             <p class="regFormError" v-show="isError">Неверно введён логин, или пароль</p>
+            <p class="regFormError" v-show="isErrorRequest">Ошибка обращения к серверу, попробуйте позже</p>
             <input v-model="login" placeholder="Введите логин" type="text" class="regFormInput">
             <input v-model="password" placeholder="Введите пароль" type="password" class="regFormInput">
             <button type="submit" class="regFormInput regFormInputButton">Войти</button>
@@ -20,7 +21,8 @@ export default {
         return {
             login: '',
             password: '',
-            isError: false
+            isError: false,
+            isErrorRequest: false
         }
     },
     methods: {
@@ -29,18 +31,25 @@ export default {
             getRequest(consts.PATH_SERVER + `?login=${this.$data.login}`).then(res => {
                 if(res.lenght != 0 && res[0] != undefined) {
                     if(res[0].password == this.$data.password) {
-                        alert("Успешно")
                         this.$data.login = ''
                         this.$data.password = ''
                         this.$data.isError = false
+                        this.$data.isErrorRequest = false
                     } else {
-                        alert("Пароль неправильный")
                         this.$data.isError = true
+                        this.$data.isErrorRequest = false
+                        this.$data.login = ''
+                        this.$data.password = ''
                     }
                 } else {
-                    alert("Ошибка")
                     this.$data.isError = true
+                    this.$data.isErrorRequest = false
+                    this.$data.login = ''
+                    this.$data.password = ''
                 }
+            }).catch(() => {
+                this.$data.isErrorRequest = true
+                this.$data.isError = false
             })
         }
     }
