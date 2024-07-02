@@ -14,6 +14,7 @@
 <script>
 import { getRequest } from '../API/requests.ts';
 import { consts } from '../consts.ts'
+import { useUserStore } from '../store/userStore.ts';
 
 export default {
     name: 'Registration',
@@ -22,7 +23,8 @@ export default {
             login: '',
             password: '',
             isError: false,
-            isErrorRequest: false
+            isErrorRequest: false,
+            useStore: useUserStore()
         }
     },
     methods: {
@@ -35,6 +37,7 @@ export default {
                         this.$data.password = ''
                         this.$data.isError = false
                         this.$data.isErrorRequest = false
+                        this.$data.useStore.addLoginUser(res[0])
                     } else {
                         this.$data.isError = true
                         this.$data.isErrorRequest = false

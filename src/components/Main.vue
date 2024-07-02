@@ -7,9 +7,11 @@
                 <p class="mainHeaderProfileUsername">{{ this.$data.userStore.user.username }}</p>
                 <p class="profileRole">{{ getRole() }}</p>
             </div>
-            
         </div>
     </header>
+    <div class="mainTableNotes">
+
+    </div>
 </template>
 
 <script>
@@ -24,8 +26,8 @@ export default {
     },
     methods: {
         getRole() {
-            console.log(this.$data.userStore.user)
-            switch(this.$data.userStore.user.role) {
+            console.log(this.$data.userStore.loginUser)
+            switch(this.$data.userStore.loginUser.role) {
                 case 'executor':
                     return 'Исполнитель'
                 case 'signer':

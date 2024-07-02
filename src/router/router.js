@@ -4,7 +4,7 @@ import Registration from '../components/Registration.vue';
 import Main from "../components/Main.vue";
 
 const routes = [
-    { path: '/', redirect: '/main' },
+    { path: '/', redirect: '/login' },
     { path: '/login', component: Registration },
     { path: '/main', component: Main }
 ]
