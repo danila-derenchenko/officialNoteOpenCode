@@ -4,7 +4,7 @@
         <div class="mainHeaderProfileBox">
             <img src="../assets/img/MainAvatar.svg" alt="avatar" class="mainHeaderProfileAvatar">
             <div class="mainHeaderProfileNameRole">
-                <p class="mainHeaderProfileUsername">{{ this.$data.userStore.user.username }}</p>
+                <p class="mainHeaderProfileUsername">{{ this.$data.userStore.loginUser.username }}</p>
                 <p class="profileRole">{{ getRole() }}</p>
             </div>
         </div>
@@ -16,6 +16,7 @@
 
 <script>
 import { useUserStore } from '../store/userStore';
+import { router } from '../router/router';
 
 export default {
     name: 'Main',

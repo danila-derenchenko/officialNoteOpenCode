@@ -13,7 +13,7 @@
 
 <script>
 import { getRequest } from '../API/requests.ts';
-import { consts } from '../consts.ts'
+import { consts } from '../consts.ts';
 import { useUserStore } from '../store/userStore.ts';
 
 export default {
@@ -38,6 +38,7 @@ export default {
                         this.$data.isError = false
                         this.$data.isErrorRequest = false
                         this.$data.useStore.addLoginUser(res[0])
+                        this.$router.push({ name: 'toMain' })
                     } else {
                         this.$data.isError = true
                         this.$data.isErrorRequest = false
