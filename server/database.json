@@ -9,7 +9,7 @@
     },
     {
       "username": "Dasha",
-      "id": "b79e",
+      "id": "b45e",
       "role": "signer",
       "login": "signerDasha@mail.ru",
       "password": "12345678"
@@ -23,9 +23,16 @@
     },
     {
       "username": "Dasha",
-      "id": "b79e",
+      "id": "b98e",
       "role": "signer",
       "login": "signerDasha@mail.ru",
+      "password": "12345678"
+    },
+    {
+      "username": "Vika",
+      "id": "b27e",
+      "role": "coordinator",
+      "login": "coordinator@mail.ru",
       "password": "12345678"
     }
   ],

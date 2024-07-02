@@ -1,15 +1,15 @@
 import { defineStore } from "pinia";
 
-type userStoreType = {
-    login: string,
-    role: string
+type storeUser = {
+    user: object
 }
 
-export const useUserStore = defineStore('userInfo', {
-    state: ():userStoreType => {
-        return {
-            login: '',
-            role: ''
+export const useUserStore = defineStore('userStore', {
+    state: (): storeUser => ({
+        user: {
+            login: 'registrator@mail.ru',
+            username: 'Даша',
+            role: 'registrator'
         }
-    }
+    })
 })
