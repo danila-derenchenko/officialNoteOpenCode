@@ -9,14 +9,20 @@
             </div>
         </div>
     </header>
+    <div class="mainButtonBox">
+        <button class="mainButtonCreateEditDelete">Создать</button>
+        <button class="mainButtonCreateEditDelete">Редактировать</button>
+        <button class="mainButtonCreateEditDelete">Удалить</button>
+    </div>
     <div class="mainTableNotes">
-
+        <TableNotes />
     </div>
 </template>
 
 <script>
 import { useUserStore } from '../store/userStore';
 import { router } from '../router/router';
+import TableNotes from './TableNotes.vue';
 
 export default {
     name: 'Main',
@@ -24,6 +30,9 @@ export default {
         return {
             userStore: useUserStore()
         }
+    },
+    components: {
+        TableNotes
     },
     methods: {
         getRole() {
@@ -36,7 +45,7 @@ export default {
                 case 'registrator':
                     return 'Регистратор'
                 case 'coordinator':
-                    return 'Согласовант'
+                    return 'Согласующий'
             }
         }
     }
@@ -67,5 +76,26 @@ export default {
     .mainHeaderProfileUsername {
         font-size: $boldSmallTextSize;
         font-weight: $boldBigTextWeight;
+    }
+    .mainButtonBox {
+        display: flex;
+        gap: 15px;
+        width: 1000px;
+        margin-left: 20px;
+        margin-top: 20px;
+    }
+    .mainButtonCreateEditDelete {
+        border: $border;
+        border-radius: $borderRadius;
+        background-color: #FFF;
+        padding: $paddingMainButton;
+        font-size: $boldSmallTextSize;
+        font-weight: $boldBigTextWeight;
+    }
+    .mainButtonCreateEditDelete:hover {
+        cursor: pointer;
+    }
+    .mainTableNotes {
+        margin-top: 15px;
     }
 </style>

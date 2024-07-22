@@ -37,6 +37,19 @@
     }
   ],
   "notes": [
-    
+    {
+      "number": "1",
+      "status": "create",
+      "createData": "25.03.2024",
+      "regNumber": "",
+      "regData": "",
+      "summary": "",
+      "whom": "",
+      "executor": "",
+      "coordinator": "",
+      "signer": "",
+      "registrator": "",
+      "description": ""
+    }
   ]
 }
