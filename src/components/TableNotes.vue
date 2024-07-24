@@ -59,6 +59,9 @@ export default {
             }
         },
         selectNote(id) {
+            if(this.$data.selectedNote == null) {
+                this.$emit('selectNote')
+            }
             this.$data.selectedNote = id
         }
     }

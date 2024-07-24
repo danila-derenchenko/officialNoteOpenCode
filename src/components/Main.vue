@@ -11,11 +11,11 @@
     </header>
     <div class="mainButtonBox">
         <button class="mainButtonCreateEditDelete">Создать</button>
-        <button class="mainButtonCreateEditDelete">Редактировать</button>
-        <button class="mainButtonCreateEditDelete">Удалить</button>
+        <button :disabled="buttonSelectDisabled" class="mainButtonCreateEditDelete">Редактировать</button>
+        <button :disabled="buttonSelectDisabled" class="mainButtonCreateEditDelete">Удалить</button>
     </div>
     <div class="mainTableNotes">
-        <TableNotes />
+        <TableNotes @selectNote="selectNote" />
     </div>
 </template>
 
@@ -28,7 +28,8 @@ export default {
     name: 'Main',
     data() {
         return {
-            userStore: useUserStore()
+            userStore: useUserStore(),
+            buttonSelectDisabled: true
         }
     },
     components: {
@@ -47,6 +48,9 @@ export default {
                 case 'coordinator':
                     return 'Согласующий'
             }
+        },
+        selectNote() {
+            this.$data.buttonSelectDisabled = false
         }
     }
 }
