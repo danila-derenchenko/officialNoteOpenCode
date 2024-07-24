@@ -60,7 +60,7 @@ export const useNoteStore = defineStore('noteStore', {
         notes: [
             {
                 number: '1',
-                status: 'create',
+                status: 'created',
                 createData: '25.03.2024',
                 regNumber: '08/5',
                 regData: '26.03.2024',
