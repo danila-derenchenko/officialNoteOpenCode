@@ -10,16 +10,16 @@
         <p class="tableNotesTextIntro">Рег. дата</p>
         <p class="tableNotesTextIntro" style="border-right: none;">Рег. номер</p>
     </div>
-    <div v-for="note in noteStore.notes" class="tableNoteWrapper tableNotesGrid">
-        <div class="tableNoteElement">{{ checkValueNotes(note.number) }}</div>
-        <div class="tableNoteElement">{{ checkValueNotes(note.createData) }}</div>
-        <div class="tableNoteElement">{{ checkValueNotes(note.status) }}</div>
-        <div class="tableNoteElement">{{ checkValueNotes(note.executor) }}</div>
-        <div class="tableNoteElement">{{ checkValueNotes(note.signer) }}</div>
-        <div class="tableNoteElement">{{ checkValueNotes(note.coordinator) }}</div>
-        <div class="tableNoteElement">{{ checkValueNotes(note.registrator) }}</div>
-        <div class="tableNoteElement">{{ checkValueNotes(note.regData) }}</div>
-        <div class="tableNoteElement">{{ checkValueNotes(note.regNumber) }}</div>
+    <div v-for="note in noteStore.notes" :id="note.number" v-on:click="selectNote(note.number)" :class="['tableNoteWrapper', 'tableNotesGrid', {'selectedNote': selectedNote == note.number}]">
+        <p class="tableNoteElement">{{ checkValueNotes(note.number) }}</p>
+        <p class="tableNoteElement">{{ checkValueNotes(note.createData) }}</p>
+        <p class="tableNoteElement">{{ checkValueNotes(note.status) }}</p>
+        <p class="tableNoteElement">{{ checkValueNotes(note.executor) }}</p>
+        <p class="tableNoteElement">{{ checkValueNotes(note.signer) }}</p>
+        <p class="tableNoteElement">{{ checkValueNotes(note.coordinator) }}</p>
+        <p class="tableNoteElement">{{ checkValueNotes(note.registrator) }}</p>
+        <p class="tableNoteElement">{{ checkValueNotes(note.regData) }}</p>
+        <p class="tableNoteElement">{{ checkValueNotes(note.regNumber) }}</p>
     </div>
 </template>
 
@@ -30,7 +30,8 @@ export default {
     name: "TableNotes",
     data() {
         return {
-            noteStore: useNoteStore()
+            noteStore: useNoteStore(),
+            selectedNote: null
         }
     },
     methods: {
@@ -56,6 +57,9 @@ export default {
             } else {
                 return data
             }
+        },
+        selectNote(id) {
+            this.$data.selectedNote = id
         }
     }
 }
@@ -89,5 +93,12 @@ export default {
         border: $borderNotes;
         border-left: none;
         border-top: none;
+        word-break: break-all;
+    }
+    .tableNoteElement:hover {
+        cursor: pointer;
+    }
+    .selectedNote {
+        background-color: $tableNotesIsSecectColor;
     }
 </style>

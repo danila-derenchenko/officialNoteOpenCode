@@ -71,6 +71,20 @@ export const useNoteStore = defineStore('noteStore', {
                 signer: '',
                 registrator: '',
                 description: ''
+            },
+            {
+                number: '2',
+                status: 'agreed',
+                createData: '25.03.2024',
+                regNumber: '08/5',
+                regData: '26.03.2024',
+                summary: '',
+                whom: '',
+                executor: '',
+                coordinator: '',
+                signer: '',
+                registrator: '',
+                description: ''
             }
         ]
     })
