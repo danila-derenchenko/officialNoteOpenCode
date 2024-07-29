@@ -11,7 +11,7 @@
     </header>
     <div class="mainButtonBox">
         <button class="mainButtonCreateEditDelete">Создать</button>
-        <button :disabled="buttonSelectDisabled" class="mainButtonCreateEditDelete">Редактировать</button>
+        <button :disabled="buttonSelectDisabled" class="mainButtonCreateEditDelete" v-on:click="onClickEditButton">Редактировать</button>
         <button :disabled="buttonSelectDisabled" class="mainButtonCreateEditDelete">Удалить</button>
     </div>
     <div class="mainTableNotes">
@@ -29,7 +29,8 @@ export default {
     data() {
         return {
             userStore: useUserStore(),
-            buttonSelectDisabled: true
+            buttonSelectDisabled: true,
+            selectedNoteId: null
         }
     },
     components: {
@@ -49,8 +50,12 @@ export default {
                     return 'Согласующий'
             }
         },
-        selectNote() {
+        selectNote(id) {
             this.$data.buttonSelectDisabled = false
+            this.$data.selectedNoteId = id
+        },
+        onClickEditButton() {
+            this.$router.push({ name: 'toNoteEdit', params: { id: this.$data.selectedNoteId } })
         }
     }
 }

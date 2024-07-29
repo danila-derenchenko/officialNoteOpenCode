@@ -7,11 +7,11 @@ import NoteEdit from "../components/NoteEdit.vue";
 // После окончания разработки установить изначальный редирект на страницу авторизации
 
 const routes = [
-    { path: '/', redirect: '/main' },
+    { path: '/', redirect: '/noteedit' },
     { path: '/main', name: 'toMain', component: Main },
     { path: '/login', component: Registration },
     { path: '/main', component: Main },
-    { path: '/noteedit', component: NoteEdit }
+    { path: '/noteedit/:id', component: NoteEdit, name: 'toNoteEdit' }
 ]
 
 export const router = createRouter({

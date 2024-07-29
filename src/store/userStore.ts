@@ -14,7 +14,7 @@ type userStore = {
 }
 
 type note = {
-    number: string,
+    number: number,
     status: string,
     createData: string,
     regNumber: string,
@@ -59,7 +59,7 @@ export const useNoteStore = defineStore('noteStore', {
     state: (): noteStore => ({
         notes: [
             {
-                number: '1',
+                number: 1,
                 status: 'created',
                 createData: '25.03.2024',
                 regNumber: '08/5',
@@ -73,7 +73,7 @@ export const useNoteStore = defineStore('noteStore', {
                 description: ''
             },
             {
-                number: '2',
+                number: 2,
                 status: 'agreed',
                 createData: '25.03.2024',
                 regNumber: '08/5',
@@ -87,5 +87,14 @@ export const useNoteStore = defineStore('noteStore', {
                 description: ''
             }
         ]
-    })
+    }),
+    actions: {
+        getNoteByNumber(number: number) {
+            for(let i:number = 0; i < this.notes.length; i++) {
+                if(this.notes[i].number == number) {
+                    return this.notes[i]
+                }
+            }
+        }
+    }
 })
