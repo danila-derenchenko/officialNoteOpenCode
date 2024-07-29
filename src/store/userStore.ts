@@ -74,7 +74,7 @@ export const useNoteStore = defineStore('noteStore', {
             },
             {
                 number: 2,
-                status: 'agreed',
+                status: 'onAgreed',
                 createData: '25.03.2024',
                 regNumber: '08/5',
                 regData: '26.03.2024',

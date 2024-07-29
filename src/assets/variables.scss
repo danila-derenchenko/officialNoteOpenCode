@@ -8,6 +8,7 @@ $boldSmallTextSize: 32px;
 $boldSmallTextWeight: 400;
 $border: 3px solid #0500FF;
 $borderRadius: 15px;
+$paddingMain: 50px;
 
 // registration page
 
@@ -16,10 +17,13 @@ $paddingRegForm: 15px;
 
 // main
 
-$paddingMain: 50px;
 $paddingMainButton: 15px;
 
 // TableNotes
 
 $borderNotes: 1px solid #0500FF;
 $tableNotesIsSecectColor: #D6D6FF;
+
+// noteEdit
+
+$noteEditTextSize: 36px;

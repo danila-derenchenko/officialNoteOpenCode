@@ -1,7 +1,10 @@
 <template>
     <header class="noteEditHeader">
-        <p class="noteEditHeaderIntro">Служебная записка №{{ getInfo('number') }}</p>
-        <div class="noteEditStatusNote"></div>
+        <p class="noteEditHeaderIntro">Служебная записка № {{ getInfo('number') }}</p>
+        <div :class="['noteEditStatusNote', {'grayNoteStatus': statusNote == ('created' || 'onFinalize')}, 
+            {'violetNoteStatus': statusNote == ('onAgreed' || 'onSigned' || 'onRegistered')},
+            {'orangeNoteStatus': statusNote == ('agreed' || 'signed')},
+            {'greenNoteStatus': statusNote == 'registered'}]">{{ getInfo('status') }}</div>
     </header>
 </template>
 
@@ -16,7 +19,8 @@ export default {
         return {
             noteStore: useNoteStore(),
             userStore: useUserStore(),
-            note: null
+            note: null,
+            statusNote: ''
         }
     },
     mounted() {
@@ -28,15 +32,35 @@ export default {
                 this.$data.note = this.noteStore.getNoteByNumber(this.$route.params.id)
             }
         },
+        checkStatus(status) {
+            this.$data.statusNote = status
+            if(status == 'created') {
+                return 'Создана'
+            } else if(status == 'agreed') {
+                return 'Согласована'
+            } else if(status == 'onAgreed') {
+                return 'На согласовании'
+            } else if(status == 'signed') {
+                return 'Подписана'
+            } else if(status == 'onSigned') {
+                return 'На подписании'
+            } else if(status == 'registered') {
+                return 'Зарегистрирована'
+            } else if(status == 'onRegistered') {
+                return 'На регистрации'
+            } else if(status == 'onFinalize') {
+                return 'На доработке'
+            }
+        },
         getInfo(param) {
             if(this.$data.note == null) {
-                return 'No data'
+                return 'Error'
             } else {
                 switch(param) {
                     case 'number':
                         return this.$data.note.number
                     case 'status':
-                        return this.$data.note.status
+                        return this.checkStatus(this.$data.note.status)
                     case 'createData':
                         return this.$data.note.createData
                     case 'regNumber':
@@ -66,5 +90,37 @@ export default {
 </script>
 
 <style lang="scss">
-
+    @import '../assets/style.scss';
+    .noteEditHeaderIntro {
+        font-size: $boldBigTextSize;
+        font-weight: $boldBigTextWeight;
+    }
+    .noteEditHeader {
+        padding: $paddingMainButton;
+        border-bottom: $border;
+    }
+    .noteEditStatusNote {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: $noteEditTextSize;
+        font-weight: $boldSmallTextWeight;
+        width: 413px;
+        height: 69px;
+        border: $borderNotes;
+        border-radius: $borderRadius;
+    }
+    .grayNoteStatus {
+        background-color: #D9D9D9;
+    }
+    .violetNoteStatus {
+        background-color: #D6D6FF;
+    }
+    .orangeNoteStatus {
+        background-color: #FFB257;
+    }
+    .greenNoteStatus {
+        background-color: #51C54F;
+    }
 </style>
