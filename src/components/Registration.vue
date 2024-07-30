@@ -14,7 +14,7 @@
 <script>
 import { getRequest } from '../API/requests.ts';
 import { consts } from '../consts.ts';
-import { useUserStore } from '../store/userStore.ts';
+import { useUserStore } from '../store/userStore.js';
 
 export default {
     name: 'Registration',
@@ -30,7 +30,7 @@ export default {
     methods: {
         checkLogin(evt) {
             evt.preventDefault()
-            getRequest(consts.PATH_SERVER + `?login=${this.$data.login}`).then(res => {
+            getRequest(consts.PATH_SERVER + `/users?login=${this.$data.login}`).then(res => {
                 if(res.lenght != 0 && res[0] != undefined) {
                     if(res[0].password == this.$data.password) {
                         this.$data.login = ''

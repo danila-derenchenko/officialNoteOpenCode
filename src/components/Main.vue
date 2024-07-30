@@ -23,6 +23,8 @@
 import { useUserStore } from '../store/userStore';
 import { router } from '../router/router';
 import TableNotes from './TableNotes.vue';
+import { getRequest } from '../API/requests';
+import { consts } from '../consts';
 
 export default {
     name: 'Main',
@@ -32,6 +34,11 @@ export default {
             buttonSelectDisabled: true,
             selectedNoteId: null
         }
+    },
+    mounted() {
+        getRequest(consts.PATH_SERVER + '/users').then(res=> {
+            this.userStore.addUsers(res)
+        })
     },
     components: {
         TableNotes

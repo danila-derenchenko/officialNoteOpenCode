@@ -1,41 +1,9 @@
 import { defineStore } from "pinia";
 
-type user = {
-    username: string,
-    id: string,
-    role: string,
-    login: string,
-    password: string
-}
-
-type userStore = {
-    loginUser: user,
-    users: user[]
-}
-
-type note = {
-    number: number,
-    status: string,
-    createData: string,
-    regNumber: string,
-    regData: string,
-    summary: string,
-    whom: string,
-    executor: string,
-    coordinator: string,
-    signer: string,
-    registrator: string,
-    description: string
-}
-
-type noteStore = {
-    notes: note[]
-}
-
 // После окончания разработки убрать фиксированно залогиненного юзера
 
 export const useUserStore = defineStore('userStore', {
-    state: (): userStore => ({
+    state: () => ({
         loginUser: {
             login: 'executor@mail.ru',
             username: 'Иванов Никита',
@@ -46,24 +14,60 @@ export const useUserStore = defineStore('userStore', {
         users: []
     }),
     actions: {
-        addLoginUser(user: user) {
+        addLoginUser(user) {
             this.loginUser = user
         },
-        addUsers(users: user[]) {
+        addUsers(users) {
             this.users = users
+        },
+        getExecutors() {
+            let array = []
+            for(let i = 0; i < this.users.length; i++) {
+                if(this.users[i].role == 'executor') {
+                    array.push(this.users[i])
+                }
+            }
+            return array
+        },
+        getSigners() {
+            let array = []
+            for(let i = 0; i < this.users.length; i++) {
+                if(this.users[i].role == 'signer') {
+                    array.push(this.users[i])
+                }
+            }
+            return array
+        },
+        getRegistrators() {
+            let array = []
+            for(let i = 0; i < this.users.length; i++) {
+                if(this.users[i].role == 'registrator') {
+                    array.push(this.users[i])
+                }
+            }
+            return array
+        },
+        getCoordinators() {
+            let array = []
+            for(let i = 0; i < this.users.length; i++) {
+                if(this.users[i].role == 'coordinator') {
+                    array.push(this.users[i])
+                }
+            }
+            return array
         }
     }
 })
 
 export const useNoteStore = defineStore('noteStore', {
-    state: (): noteStore => ({
+    state: () => ({
         notes: [
             {
                 number: 1,
                 status: 'created',
-                createData: '25.03.2024',
+                createData: '2024-06-01',
                 regNumber: '08/5',
-                regData: '26.03.2024',
+                regData: '2024-06-01',
                 summary: '',
                 whom: '',
                 executor: '',
@@ -75,9 +79,9 @@ export const useNoteStore = defineStore('noteStore', {
             {
                 number: 2,
                 status: 'onAgreed',
-                createData: '25.03.2024',
+                createData: '2024-08-01',
                 regNumber: '08/5',
-                regData: '26.03.2024',
+                regData: '2024-06-01',
                 summary: '',
                 whom: '',
                 executor: '',
@@ -89,8 +93,8 @@ export const useNoteStore = defineStore('noteStore', {
         ]
     }),
     actions: {
-        getNoteByNumber(number: number) {
-            for(let i:number = 0; i < this.notes.length; i++) {
+        getNoteByNumber(number) {
+            for(let i = 0; i < this.notes.length; i++) {
                 if(this.notes[i].number == number) {
                     return this.notes[i]
                 }
