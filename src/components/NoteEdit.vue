@@ -18,7 +18,7 @@
             </div>
             <div class="shortInputBox">
                 <p class="descriptionInputBoxText">Рег. номер</p>
-                <input type="text" class="noteEditInput" v-model="regNumberNote">
+                <input type="text" class="noteEditInput" :disabled="isRegistrator" v-model="regNumberNote">
             </div>
             <div class="shortInputBox">
                 <p class="descriptionInputBoxText">Рег. дата</p>
@@ -27,55 +27,63 @@
         </div>
         <div class="noteEditInputBox">
             <p class="descriptionInputBoxText">Краткое содержание</p>
-            <input type="text" class="noteEditInput noteEditLongInput" v-model="summaryNote">
+            <input type="text" class="noteEditInput noteEditLongInput" :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator" v-model="summaryNote">
         </div>
         <div class="noteEditControlPanelBox">
             <div class="shortInputBox">
                 <p class="descriptionInputBoxText">Кому</p>
-                <input type="text" class="noteEditInput" v-model="whomNote">
+                <input type="text" class="noteEditInput" :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator" v-model="whomNote">
             </div>
             <div class="shortInputBox">
                 <p class="descriptionInputBoxText">Исполнитель</p>
-                <select v-model="executorNote" class="noteEditInput noteEditInputSelect">
+                <select v-model="executorNote" class="noteEditInput noteEditInputSelect" :disabled="isExecutor">sdbrwabvwqevbaerva
                     <option class="noteEditInputSelect" value="">Не задано</option>
-                    <option v-for="executor in executors" class="noteEditInputSelect" :value="executor.login">{{ executor.username }}</option>
+                    <option v-for="executor in executors" class="noteEditInputSelect" :value="executor.login">{{
+                        executor.username }}</option>
                 </select>
             </div>
             <div class="shortInputBox">
                 <p class="descriptionInputBoxText">Согласующий</p>
-                <select v-model="coordinatorNote" class="noteEditInput noteEditInputSelect">
+                <select v-model="coordinatorNote" class="noteEditInput noteEditInputSelect" :disabled="isExecutor">
                     <option class="noteEditInputSelect" value="">Не задано</option>
-                    <option v-for="coordinator in coordinators" class="noteEditInputSelect" :value="coordinator.login">{{ coordinator.username }}</option>
+                    <option v-for="coordinator in coordinators" class="noteEditInputSelect" :value="coordinator.login">
+                        {{ coordinator.username }}</option>
                 </select>
             </div>
             <div class="shortInputBox">
                 <p class="descriptionInputBoxText">Подписант</p>
-                <select v-model="signerNote" class="noteEditInput noteEditInputSelect">
+                <select v-model="signerNote" class="noteEditInput noteEditInputSelect" :disabled="isExecutor">
                     <option class="noteEditInputSelect" value="">Не задано</option>
-                    <option v-for="signer in signers" class="noteEditInputSelect" :value="signer.login">{{ signer.username }}</option>
+                    <option v-for="signer in signers" class="noteEditInputSelect" :value="signer.login">{{
+                        signer.username }}</option>
                 </select>
             </div>
             <div class="shortInputBox">
                 <p class="descriptionInputBoxText">Регистратор</p>
-                <select v-model="registratorNote" class="noteEditInput noteEditInputSelect">
+                <select v-model="registratorNote" class="noteEditInput noteEditInputSelect" :disabled="isExecutor">
                     <option value="">Не задано</option>
-                    <option v-for="registrator in registrators" class="noteEditInputSelect" :value="registrator.login">{{ registrator.username }}</option>
+                    <option v-for="registrator in registrators" class="noteEditInputSelect" :value="registrator.login">
+                        {{ registrator.username }}</option>
                 </select>
             </div>
         </div>
         <div class="noteEditInputBox">
             <p class="descriptionInputBoxText">Описание</p>
-            <textarea v-model="descriptionNote" class="noteEditInput noteEditInputTextArea"></textarea>
+            <textarea v-model="descriptionNote" class="noteEditInput noteEditInputTextArea" :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator"></textarea>
         </div>
         <div class="noteEditInputBox">
-            <p class="descriptionInputBoxText">Комментарий  </p>
-            <input type="text" class="noteEditInput noteEditLongInput" v-model="summaryNote">
+            <p class="descriptionInputBoxText">Комментарий </p>
+            <input type="text" class="noteEditInput noteEditLongInput" v-model="summaryNote" :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator">
         </div>
     </div>
     <div class="noteEditButtonControlPanel">
         <div class="noteEditButtonControlPanelBox">
-            <button v-show="isButtonNoneVision" :class="['noteEditButtonControlPanelButton', {'noteEditButtonControlPanelButtonRed': isButtonRedClass == true}]">{{ checkActionsWithStatus('1') }}</button>
-            <button v-show="isButtonNoneVision" class="noteEditButtonControlPanelButton" :class="['noteEditButtonControlPanelButton', {'noteEditButtonControlPanelButtonGreen': isButtonGreenClass == true}]">{{ checkActionsWithStatus('2') }}</button>
+            <button v-show="isButtonNoneVision"
+                :class="['noteEditButtonControlPanelButton', { 'noteEditButtonControlPanelButtonRed': isButtonRedClass == true }]">{{
+                    checkActionsWithStatus('1') }}</button>
+            <button v-show="isButtonNoneVision" class="noteEditButtonControlPanelButton"
+                :class="['noteEditButtonControlPanelButton', { 'noteEditButtonControlPanelButtonGreen': isButtonGreenClass == true }]">{{
+                    checkActionsWithStatus('2') }}</button>
         </div>
         <button class="noteEditButtonControlPanelButton">Печать</button>
         <div class="noteEditButtonControlPanelBox">
@@ -95,6 +103,10 @@ export default {
     name: 'NoteEdit',
     data() {
         return {
+            isExecutor: true,
+            isCoordinator: true,
+            isSigner: true,
+            isRegistrator: true,
             noteStore: useNoteStore(),
             userStore: useUserStore(),
             note: null,
@@ -120,7 +132,7 @@ export default {
         }
     },
     mounted() {
-        if(this.userStore.loginUser == null) {
+        if (this.userStore.loginUser == null) {
             this.$router.push('toLogin')
         } else {
             this.getNote()
@@ -149,60 +161,46 @@ export default {
             }
         },
         checkActionsWithStatus(numberButton) {
-            if(this.statusNote == 'created' || this.statusNote == 'onFinalize') {
-                if(this.userStore.loginUser.login == this.executorNote) {
-                    if(numberButton == '1') {
-                        return 'На согласование'
-                    }
-                    else {
-                        return 'На регистрацию'
-                    }
+            if ((this.statusNote == 'created' || this.statusNote == 'onFinalize' || this.statusNote == 'agreed' || this.statusNote == 'signed') && this.userStore.loginUser.login == this.executorNote) {
+                this.checkDisabled('executor')
+                if (numberButton == '1') {
+                    return 'На согласование'
+                }
+                else {
+                    return 'На регистрацию'
                 }
             }
-            else if(this.statusNote == 'agreed' || this.statusNote == 'signed') {
-                if(this.userStore.loginUser.login == this.executorNote) {
-                    if(numberButton == '1') {
-                        this.isButtonNoneClass = true
-                        return ''
-                    }
-                    else {
-                        return 'На регистрацию'
-                    }
+            else if (this.statusNote == 'onAgreed' && this.userStore.loginUser.login == this.coordinatorNote) {
+                this.checkDisabled('coordinator')
+                if (numberButton == 1) {
+                    this.isButtonRedClass = true
+                    return 'Отклонить'
+                } else {
+                    this.isButtonGreenClass = true
+                    return 'Согласовать'
                 }
             }
-            else if(this.statusNote == 'onAgreed') {
-                if(this.userStore.loginUser.login == this.coordinatorNote) {
-                    if(numberButton == 1) {
-                        this.isButtonRedClass = true
-                        return 'Отклонить'
-                    } else {
-                        this.isButtonGreenClass = true
-                        return 'Согласовать'
-                    }
+            else if (this.statusNote == 'onSigned' && this.userStore.loginUser.login == this.signerNote) {
+                this.checkDisabled('signer')
+                if (numberButton == 1) {
+                    this.isButtonRedClass = true
+                    return 'Отклонить'
+                } else {
+                    this.isButtonGreenClass = true
+                    return 'Подписать'
                 }
             }
-            else if(this.statusNote == 'onSigned') {
-                if(this.userStore.loginUser.login == this.signerNote) {
-                    if(numberButton == 1) {
-                        this.isButtonRedClass = true
-                        return 'Отклонить'
-                    } else {
-                        this.isButtonGreenClass = true
-                        return 'Подписать'
-                    }
-                }
-            }
-            else if(this.statusNote == 'onRegistered') {
-                if(this.userStore.loginUser.login == this.registratorNote) {
-                    if(numberButton == 1) {
-                        this.isButtonRedClass = true
-                        return 'Отклонить'
-                    } else {
-                        this.isButtonGreenClass = true
-                        return 'Зарегистрировать'
-                    }
+            else if (this.statusNote == 'onRegistered' && this.userStore.loginUser.login == this.registratorNote) {
+                this.checkDisabled('registrator')
+                if (numberButton == 1) {
+                    this.isButtonRedClass = true
+                    return 'Отклонить'
+                } else {
+                    this.isButtonGreenClass = true
+                    return 'Зарегистрировать'
                 }
             } else {
+                this.checkDisabled('usuallyUser')
                 this.isButtonNoneVision = false
             }
         },
@@ -223,6 +221,20 @@ export default {
                 return 'На регистрации'
             } else if (status == 'onFinalize') {
                 return 'На доработке'
+            }
+        },
+        checkDisabled(role) {
+            if(role == 'executor') {
+                this.isExecutor = false
+            }
+            if(role == 'registrator') {
+                this.isRegistrator = false
+            }
+            if(role == 'signer') {
+                this.isSigner = false
+            }
+            if(role == 'coordinator') {
+                this.isCoordinator = false
             }
         },
         getInfo(param) {
@@ -326,23 +338,28 @@ export default {
     padding: $paddingMain;
     border-bottom: $border;
 }
+
 .noteEditControlPanelBox {
     display: flex;
     gap: 15px;
 }
+
 .noteEditInputBox {
     width: 100%;
     margin-top: 15px;
 }
+
 .noteEditLongInput {
     width: 100%;
     text-align: left;
     padding: 5px;
 }
+
 .noteEditInputSelect {
     cursor: pointer;
     font-size: 20px;
 }
+
 .noteEditInputTextArea {
     width: 100%;
     height: 150px;
@@ -351,11 +368,13 @@ export default {
     resize: none;
     cursor: pointer;
 }
+
 .noteEditButtonControlPanel {
     padding: $paddingMain;
     display: flex;
     justify-content: space-between;
 }
+
 .noteEditButtonControlPanelButton {
     border: $border;
     border-radius: $borderRadius;
@@ -365,13 +384,16 @@ export default {
     font-weight: $boldSmallTextWeight;
     cursor: pointer;
 }
+
 .noteEditButtonControlPanelBox {
     display: flex;
     gap: 10px;
 }
+
 .noteEditButtonControlPanelButtonRed {
     background-color: #D24040;
 }
+
 .noteEditButtonControlPanelButtonGreen {
     background-color: #45B433;
 }
