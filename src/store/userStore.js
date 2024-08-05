@@ -1,13 +1,15 @@
 import { defineStore } from "pinia";
+import { getRequest } from "../API/requests";
+import { consts } from "../consts";
 
 // После окончания разработки убрать фиксированно залогиненного юзера
 
 export const useUserStore = defineStore('userStore', {
     state: () => ({
         loginUser: {
-            login: 'executor@mail.ru',
+            login: 'coordinator@mail.ru',
             username: 'Иванов Никита',
-            role: 'executor',
+            role: 'coordinator',
             id: "b74e",
             password: "12345678"
         },
@@ -18,7 +20,12 @@ export const useUserStore = defineStore('userStore', {
             this.loginUser = user
         },
         addUsers(users) {
-            this.users = users
+            this.$state.users = users
+        },
+        async loadUsers() {
+            getRequest(consts.PATH_SERVER + '/users').then(res=> {
+                this.addUsers(res)
+            })
         },
         getExecutors() {
             let array = []
@@ -70,7 +77,7 @@ export const useNoteStore = defineStore('noteStore', {
                 regData: '2024-06-01',
                 summary: '',
                 whom: '',
-                executor: '',
+                executor: 'executor@mail.ru',
                 coordinator: '',
                 signer: '',
                 registrator: '',
@@ -84,8 +91,8 @@ export const useNoteStore = defineStore('noteStore', {
                 regData: '2024-06-01',
                 summary: '',
                 whom: '',
-                executor: '',
-                coordinator: '',
+                executor: 'executor@mail.ru',
+                coordinator: 'coordinator@mail.ru',
                 signer: '',
                 registrator: '',
                 description: ''

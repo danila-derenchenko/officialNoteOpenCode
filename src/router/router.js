@@ -9,7 +9,7 @@ import NoteEdit from "../components/NoteEdit.vue";
 const routes = [
     { path: '/', redirect: '/noteedit' },
     { path: '/main', name: 'toMain', component: Main },
-    { path: '/login', component: Registration },
+    { path: '/login', name: 'toLogin', component: Registration },
     { path: '/main', component: Main },
     { path: '/noteedit/:id', component: NoteEdit, name: 'toNoteEdit' }
 ]

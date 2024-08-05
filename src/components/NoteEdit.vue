@@ -74,13 +74,13 @@
     </div>
     <div class="noteEditButtonControlPanel">
         <div class="noteEditButtonControlPanelBox">
-            <button class="noteEditButtonControlPanelButton">На согласование</button>
-            <button class="noteEditButtonControlPanelButton">На регистрацию</button>
+            <button v-show="isButtonNoneVision" :class="['noteEditButtonControlPanelButton', {'noteEditButtonControlPanelButtonRed': isButtonRedClass == true}]">{{ checkActionsWithStatus('1') }}</button>
+            <button v-show="isButtonNoneVision" class="noteEditButtonControlPanelButton" :class="['noteEditButtonControlPanelButton', {'noteEditButtonControlPanelButtonGreen': isButtonGreenClass == true}]">{{ checkActionsWithStatus('2') }}</button>
         </div>
         <button class="noteEditButtonControlPanelButton">Печать</button>
         <div class="noteEditButtonControlPanelBox">
-            <button class="noteEditButtonControlPanelButton">На согласование</button>
-            <button class="noteEditButtonControlPanelButton">На регистрацию</button>
+            <button class="noteEditButtonControlPanelButton">Закрыть</button>
+            <button class="noteEditButtonControlPanelButton">Сохранить</button>
         </div>
     </div>
 </template>
@@ -110,6 +110,9 @@ export default {
             signerNote: '',
             registratorNote: '',
             descriptionNote: '',
+            isButtonRedClass: false,
+            isButtonGreenClass: false,
+            isButtonNoneVision: true,
             executors: [],
             registrators: [],
             coordinators: [],
@@ -117,11 +120,15 @@ export default {
         }
     },
     mounted() {
-        this.getNote()
-        this.executors = this.userStore.getExecutors()
-        this.registrators = this.userStore.getRegistrators()
-        this.signers = this.userStore.getSigners()
-        this.coordinators = this.userStore.getCoordinators()
+        if(this.userStore.loginUser == null) {
+            this.$router.push('toLogin')
+        } else {
+            this.getNote()
+            this.executors = this.userStore.getExecutors()
+            this.registrators = this.userStore.getRegistrators()
+            this.signers = this.userStore.getSigners()
+            this.coordinators = this.userStore.getCoordinators()
+        }
     },
     methods: {
         getNote() {
@@ -139,6 +146,64 @@ export default {
                 this.$data.signerNote = this.$data.note.signer
                 this.$data.registratorNote = this.$data.note.registrator
                 this.$data.descriptionNote = this.$data.note.description
+            }
+        },
+        checkActionsWithStatus(numberButton) {
+            if(this.statusNote == 'created' || this.statusNote == 'onFinalize') {
+                if(this.userStore.loginUser.login == this.executorNote) {
+                    if(numberButton == '1') {
+                        return 'На согласование'
+                    }
+                    else {
+                        return 'На регистрацию'
+                    }
+                }
+            }
+            else if(this.statusNote == 'agreed' || this.statusNote == 'signed') {
+                if(this.userStore.loginUser.login == this.executorNote) {
+                    if(numberButton == '1') {
+                        this.isButtonNoneClass = true
+                        return ''
+                    }
+                    else {
+                        return 'На регистрацию'
+                    }
+                }
+            }
+            else if(this.statusNote == 'onAgreed') {
+                if(this.userStore.loginUser.login == this.coordinatorNote) {
+                    if(numberButton == 1) {
+                        this.isButtonRedClass = true
+                        return 'Отклонить'
+                    } else {
+                        this.isButtonGreenClass = true
+                        return 'Согласовать'
+                    }
+                }
+            }
+            else if(this.statusNote == 'onSigned') {
+                if(this.userStore.loginUser.login == this.signerNote) {
+                    if(numberButton == 1) {
+                        this.isButtonRedClass = true
+                        return 'Отклонить'
+                    } else {
+                        this.isButtonGreenClass = true
+                        return 'Подписать'
+                    }
+                }
+            }
+            else if(this.statusNote == 'onRegistered') {
+                if(this.userStore.loginUser.login == this.registratorNote) {
+                    if(numberButton == 1) {
+                        this.isButtonRedClass = true
+                        return 'Отклонить'
+                    } else {
+                        this.isButtonGreenClass = true
+                        return 'Зарегистрировать'
+                    }
+                }
+            } else {
+                this.isButtonNoneVision = false
             }
         },
         checkStatus(status) {
@@ -298,9 +363,16 @@ export default {
     padding: $paddingMainButton;
     font-size: $noteEditTextSize;
     font-weight: $boldSmallTextWeight;
+    cursor: pointer;
 }
 .noteEditButtonControlPanelBox {
     display: flex;
     gap: 10px;
+}
+.noteEditButtonControlPanelButtonRed {
+    background-color: #D24040;
+}
+.noteEditButtonControlPanelButtonGreen {
+    background-color: #45B433;
 }
 </style>

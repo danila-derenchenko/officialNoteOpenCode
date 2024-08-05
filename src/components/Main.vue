@@ -35,11 +35,6 @@ export default {
             selectedNoteId: null
         }
     },
-    mounted() {
-        getRequest(consts.PATH_SERVER + '/users').then(res=> {
-            this.userStore.addUsers(res)
-        })
-    },
     components: {
         TableNotes
     },
