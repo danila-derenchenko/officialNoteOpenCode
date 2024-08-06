@@ -163,6 +163,7 @@ export default {
         checkActionsWithStatus(numberButton) {
             if ((this.statusNote == 'created' || this.statusNote == 'onFinalize' || this.statusNote == 'agreed' || this.statusNote == 'signed') && this.userStore.loginUser.login == this.executorNote) {
                 this.checkDisabled('executor')
+                this.isButtonNoneVision = true
                 if (numberButton == '1') {
                     return 'На согласование'
                 }
@@ -172,6 +173,7 @@ export default {
             }
             else if (this.statusNote == 'onAgreed' && this.userStore.loginUser.login == this.coordinatorNote) {
                 this.checkDisabled('coordinator')
+                this.isButtonNoneVision = true
                 if (numberButton == 1) {
                     this.isButtonRedClass = true
                     return 'Отклонить'
@@ -181,6 +183,7 @@ export default {
                 }
             }
             else if (this.statusNote == 'onSigned' && this.userStore.loginUser.login == this.signerNote) {
+                this.isButtonNoneVision = true
                 this.checkDisabled('signer')
                 if (numberButton == 1) {
                     this.isButtonRedClass = true
@@ -191,6 +194,7 @@ export default {
                 }
             }
             else if (this.statusNote == 'onRegistered' && this.userStore.loginUser.login == this.registratorNote) {
+                this.isButtonNoneVision = true
                 this.checkDisabled('registrator')
                 if (numberButton == 1) {
                     this.isButtonRedClass = true
