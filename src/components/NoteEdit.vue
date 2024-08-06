@@ -2,9 +2,9 @@
     <header class="noteEditHeader">
         <p class="noteEditHeaderIntro">Служебная записка № {{ getInfo('number') }}</p>
         <div :class="['noteEditStatusNote', { 'grayNoteStatus': statusNote == ('created' || 'onFinalize') },
-            { 'violetNoteStatus': statusNote == ('onAgreed' || 'onSigned' || 'onRegistered') },
+            { 'violetNoteStatus': statusNote == ('onSigned' || 'onRegistered') || 'onAgreed' },
             { 'orangeNoteStatus': statusNote == ('agreed' || 'signed') },
-            { 'greenNoteStatus': statusNote == 'registered' }]">{{ getInfo('status') }}</div>
+            { 'greenNoteStatus': statusNote == 'registered' }]"> {{ getInfo('status') }}</div>
     </header>
     <div class="noteEditControlPanel">
         <div class="noteEditControlPanelBox">

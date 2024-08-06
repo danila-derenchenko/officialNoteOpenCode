@@ -7,9 +7,9 @@ import { consts } from "../consts";
 export const useUserStore = defineStore('userStore', {
     state: () => ({
         loginUser: {
-            login: 'coordinator@mail.ru',
-            username: 'Иванов Никита',
-            role: 'coordinator',
+            login: 'signerDasha@mail.ru',
+            username: 'Иванова Дарья',
+            role: 'signer',
             id: "b74e",
             password: "12345678"
         },
@@ -85,7 +85,7 @@ export const useNoteStore = defineStore('noteStore', {
             },
             {
                 number: 2,
-                status: 'onAgreed',
+                status: 'onSigned',
                 createData: '2024-08-01',
                 regNumber: '08/5',
                 regData: '2024-06-01',
@@ -93,8 +93,8 @@ export const useNoteStore = defineStore('noteStore', {
                 whom: '',
                 executor: 'executor@mail.ru',
                 coordinator: 'coordinator@mail.ru',
-                signer: '',
-                registrator: '',
+                signer: 'signerDasha@mail.ru',
+                registrator: 'registratorAlena@mail.ru',
                 description: ''
             }
         ]
