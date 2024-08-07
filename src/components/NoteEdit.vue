@@ -27,16 +27,19 @@
         </div>
         <div class="noteEditInputBox">
             <p class="descriptionInputBoxText">Краткое содержание</p>
-            <input type="text" class="noteEditInput noteEditLongInput" :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator" v-model="summaryNote">
+            <input type="text" class="noteEditInput noteEditLongInput"
+                :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator" v-model="summaryNote">
         </div>
         <div class="noteEditControlPanelBox">
             <div class="shortInputBox">
                 <p class="descriptionInputBoxText">Кому</p>
-                <input type="text" class="noteEditInput" :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator" v-model="whomNote">
+                <input type="text" class="noteEditInput"
+                    :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator" v-model="whomNote">
             </div>
             <div class="shortInputBox">
                 <p class="descriptionInputBoxText">Исполнитель</p>
-                <select v-model="executorNote" class="noteEditInput noteEditInputSelect" :disabled="isExecutor">sdbrwabvwqevbaerva
+                <select v-model="executorNote" class="noteEditInput noteEditInputSelect"
+                    :disabled="isExecutor">
                     <option class="noteEditInputSelect" value="">Не задано</option>
                     <option v-for="executor in executors" class="noteEditInputSelect" :value="executor.login">{{
                         executor.username }}</option>
@@ -69,11 +72,13 @@
         </div>
         <div class="noteEditInputBox">
             <p class="descriptionInputBoxText">Описание</p>
-            <textarea v-model="descriptionNote" class="noteEditInput noteEditInputTextArea" :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator"></textarea>
+            <textarea v-model="descriptionNote" class="noteEditInput noteEditInputTextArea"
+                :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator"></textarea>
         </div>
         <div class="noteEditInputBox">
             <p class="descriptionInputBoxText">Комментарий </p>
-            <input type="text" class="noteEditInput noteEditLongInput" v-model="summaryNote" :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator">
+            <input type="text" class="noteEditInput noteEditLongInput" v-model="commentNote"
+                :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator">
         </div>
     </div>
     <div class="noteEditButtonControlPanel">
@@ -87,15 +92,16 @@
         </div>
         <button class="noteEditButtonControlPanelButton">Печать</button>
         <div class="noteEditButtonControlPanelBox">
-            <button class="noteEditButtonControlPanelButton">Закрыть</button>
-            <button class="noteEditButtonControlPanelButton">Сохранить</button>
+            <button class="noteEditButtonControlPanelButton" v-on:click="closeNote()">Закрыть</button>
+            <button class="noteEditButtonControlPanelButton" v-on:click="saveNote()">Сохранить</button>
         </div>
     </div>
 </template>
 
 <script>
 // 2017-06-01 - пример формата времени
-import { getRequest } from '../API/requests';
+import { getRequest, updateRequest } from '../API/requests';
+import { consts } from '../consts';
 import { useNoteStore, useUserStore } from '../store/userStore';
 // ПО ОКОНЧАНИИ ВЕРСТКИ УДАЛИТЬ РЕДИРЕКТ
 // ПО ОКОНЧАНИЮ РАБОТ ИСПРАВИТЬ ПОЛУЧЕНИЕ ЗАПИСКИ ИЗ
@@ -116,6 +122,7 @@ export default {
             regNumberNote: '',
             regDataNote: '',
             summaryNote: '',
+            commentNote: '',
             whomNote: '',
             executorNote: '',
             coordinatorNote: '',
@@ -133,7 +140,7 @@ export default {
     },
     mounted() {
         if (this.userStore.loginUser == null) {
-            this.$router.push('toLogin')
+            this.$router.push({ name: 'toLogin' })
         } else {
             this.getNote()
             this.executors = this.userStore.getExecutors()
@@ -143,6 +150,9 @@ export default {
         }
     },
     methods: {
+        closeNote() {
+            this.$router.push({ name: 'toMain' })
+        },
         getNote() {
             if (this.$data.note == null) {
                 this.$data.note = this.noteStore.getNoteByNumber(this.$route.params.id)
@@ -157,8 +167,28 @@ export default {
                 this.$data.coordinatorNote = this.$data.note.coordinator
                 this.$data.signerNote = this.$data.note.signer
                 this.$data.registratorNote = this.$data.note.registrator
+                this.$data.commentNote = this.$data.note.comment
                 this.$data.descriptionNote = this.$data.note.description
             }
+        },
+        saveNote() {
+            const updatedNote = {
+                number: this.$data.numberNote,
+                status: this.$data.statusNote,
+                createData: this.$data.createDataNote,
+                regNumber: this.$data.regNumberNote,
+                regData: this.$data.regDataNote,
+                summary: this.$data.summaryNote,
+                whom: this.$data.whomNote,
+                executor: this.$data.executorNote,
+                coordinator: this.$data.coordinatorNote,
+                signer: this.$data.signerNote,
+                registrator: this.$data.registratorNote,
+                description: this.$data.descriptionNote,
+                comment: this.$data.commentNote
+            }
+            this.$data.noteStore.updateNote(this.$data.note.id, updatedNote)
+            updateRequest(consts.PATH_SERVER + `/notes/${this.$data.note.id}`, updatedNote)
         },
         checkActionsWithStatus(numberButton) {
             if ((this.statusNote == 'created' || this.statusNote == 'onFinalize' || this.statusNote == 'agreed' || this.statusNote == 'signed') && this.userStore.loginUser.login == this.executorNote) {
@@ -228,16 +258,16 @@ export default {
             }
         },
         checkDisabled(role) {
-            if(role == 'executor') {
+            if (role == 'executor') {
                 this.isExecutor = false
             }
-            if(role == 'registrator') {
+            if (role == 'registrator') {
                 this.isRegistrator = false
             }
-            if(role == 'signer') {
+            if (role == 'signer') {
                 this.isSigner = false
             }
-            if(role == 'coordinator') {
+            if (role == 'coordinator') {
                 this.isCoordinator = false
             }
         },

@@ -6,13 +6,7 @@ import { consts } from "../consts";
 
 export const useUserStore = defineStore('userStore', {
     state: () => ({
-        loginUser: {
-            login: 'signerDasha@mail.ru',
-            username: 'Иванова Дарья',
-            role: 'signer',
-            id: "b74e",
-            password: "12345678"
-        },
+        loginUser: null,
         users: []
     }),
     actions: {
@@ -68,36 +62,7 @@ export const useUserStore = defineStore('userStore', {
 
 export const useNoteStore = defineStore('noteStore', {
     state: () => ({
-        notes: [
-            {
-                number: 1,
-                status: 'created',
-                createData: '2024-06-01',
-                regNumber: '08/5',
-                regData: '2024-06-01',
-                summary: '',
-                whom: '',
-                executor: 'executor@mail.ru',
-                coordinator: '',
-                signer: '',
-                registrator: '',
-                description: ''
-            },
-            {
-                number: 2,
-                status: 'onSigned',
-                createData: '2024-08-01',
-                regNumber: '08/5',
-                regData: '2024-06-01',
-                summary: '',
-                whom: '',
-                executor: 'executor@mail.ru',
-                coordinator: 'coordinator@mail.ru',
-                signer: 'signerDasha@mail.ru',
-                registrator: 'registratorAlena@mail.ru',
-                description: ''
-            }
-        ]
+        notes: []
     }),
     actions: {
         getNoteByNumber(number) {
@@ -106,6 +71,21 @@ export const useNoteStore = defineStore('noteStore', {
                     return this.notes[i]
                 }
             }
+        },
+        addNotes(notes) {
+            this.$state.notes = notes
+        },
+        updateNote(id, data) {
+            for(let i = 0; i < this.notes.length; i++) {
+                if(this.notes[i].id == id) {
+                    this.notes[i] = data
+                }
+            }
+        },
+        async loadNotes() {
+            getRequest(consts.PATH_SERVER + '/notes').then(res=> {
+                this.addNotes(res)
+            })
         }
     }
 })

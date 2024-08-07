@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { getRequest } from '../API/requests.ts';
+import { getRequest } from '../API/requests.js';
 import { consts } from '../consts.ts';
 import { useUserStore } from '../store/userStore.js';
 

@@ -35,6 +35,11 @@ export default {
             selectedNoteId: null
         }
     },
+    mounted() {
+        if(this.userStore.loginUser == null) {
+            this.$router.push({ name: 'toLogin' })
+        }
+    },
     components: {
         TableNotes
     },
