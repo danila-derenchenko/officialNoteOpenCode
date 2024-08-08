@@ -19,13 +19,16 @@ export default {
         }
     },
     beforeMount() {
-        this.noteStore.loadNotes()
-        this.userStore.loadUsers()
+        if (this.userStore.loginUser == null) {
+            this.$router.push({ name: 'toLogin' })
+        }
+        setInterval(() => {
+            this.noteStore.loadNotes()
+            this.userStore.loadUsers()
+        }, 1000)
     }
 }
 
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

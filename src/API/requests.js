@@ -8,3 +8,7 @@ export const getRequest = async (url) => {
 export const updateRequest = async (url, data) => {
     const res = await axios.put(url, data)
 }
+
+export const postRequest = async (url, data) => {
+    const res = await axios.put(url, data)
+}

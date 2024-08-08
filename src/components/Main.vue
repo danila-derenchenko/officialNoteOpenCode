@@ -35,7 +35,7 @@ export default {
             selectedNoteId: null
         }
     },
-    mounted() {
+    beforeMountmounted() {
         if(this.userStore.loginUser == null) {
             this.$router.push({ name: 'toLogin' })
         }

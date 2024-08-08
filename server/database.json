@@ -39,17 +39,17 @@
   "notes": [
     {
       "number": "1",
-      "status": "created",
+      "status": "onSigned",
       "createData": "25.03.2024",
-      "regNumber": "",
+      "regNumber": "67/7",
       "regData": "",
-      "summary": "134rr321rf23fd",
-      "whom": "2gf32f23",
+      "summary": "",
+      "whom": "npn",
       "executor": "executor@mail.ru",
       "coordinator": "coordinator@mail.ru",
       "signer": "signerDasha@mail.ru",
       "registrator": "registrator@mail.ru",
-      "description": "234g234fg23fw4gf324gegeg2",
+      "description": "",
       "comment": "",
       "id": "b90hj"
     }

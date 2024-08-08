@@ -38,8 +38,7 @@
             </div>
             <div class="shortInputBox">
                 <p class="descriptionInputBoxText">Исполнитель</p>
-                <select v-model="executorNote" class="noteEditInput noteEditInputSelect"
-                    :disabled="isExecutor">
+                <select v-model="executorNote" class="noteEditInput noteEditInputSelect" :disabled="isExecutor">
                     <option class="noteEditInputSelect" value="">Не задано</option>
                     <option v-for="executor in executors" class="noteEditInputSelect" :value="executor.login">{{
                         executor.username }}</option>
@@ -83,10 +82,10 @@
     </div>
     <div class="noteEditButtonControlPanel">
         <div class="noteEditButtonControlPanelBox">
-            <button v-show="isButtonNoneVision"
+            <button v-show="isButtonNoneVision" v-on:click="clickControlButton1"
                 :class="['noteEditButtonControlPanelButton', { 'noteEditButtonControlPanelButtonRed': isButtonRedClass == true }]">{{
                     checkActionsWithStatus('1') }}</button>
-            <button v-show="isButtonNoneVision" class="noteEditButtonControlPanelButton"
+            <button v-show="isButtonNoneVision" v-on:click="clickControlButton2"
                 :class="['noteEditButtonControlPanelButton', { 'noteEditButtonControlPanelButtonGreen': isButtonGreenClass == true }]">{{
                     checkActionsWithStatus('2') }}</button>
         </div>
@@ -100,15 +99,16 @@
 
 <script>
 // 2017-06-01 - пример формата времени
+import { CalculationOperation } from 'sass';
 import { getRequest, updateRequest } from '../API/requests';
 import { consts } from '../consts';
 import { useNoteStore, useUserStore } from '../store/userStore';
-// ПО ОКОНЧАНИИ ВЕРСТКИ УДАЛИТЬ РЕДИРЕКТ
-// ПО ОКОНЧАНИЮ РАБОТ ИСПРАВИТЬ ПОЛУЧЕНИЕ ЗАПИСКИ ИЗ
+
 export default {
     name: 'NoteEdit',
     data() {
         return {
+            emptyAttributes: [],
             isExecutor: true,
             isCoordinator: true,
             isSigner: true,
@@ -150,27 +150,6 @@ export default {
         }
     },
     methods: {
-        closeNote() {
-            this.$router.push({ name: 'toMain' })
-        },
-        getNote() {
-            if (this.$data.note == null) {
-                this.$data.note = this.noteStore.getNoteByNumber(this.$route.params.id)
-                this.$data.statusNote = this.$data.note.status
-                this.$data.numberNote = this.$data.note.number
-                this.$data.createDataNote = this.$data.note.createData
-                this.$data.regNumberNote = this.$data.note.regNumber
-                this.$data.regDataNote = this.$data.note.regData
-                this.$data.summaryNote = this.$data.note.summary
-                this.$data.whomNote = this.$data.note.whom
-                this.$data.executorNote = this.$data.note.executor
-                this.$data.coordinatorNote = this.$data.note.coordinator
-                this.$data.signerNote = this.$data.note.signer
-                this.$data.registratorNote = this.$data.note.registrator
-                this.$data.commentNote = this.$data.note.comment
-                this.$data.descriptionNote = this.$data.note.description
-            }
-        },
         saveNote() {
             const updatedNote = {
                 number: this.$data.numberNote,
@@ -189,6 +168,204 @@ export default {
             }
             this.$data.noteStore.updateNote(this.$data.note.id, updatedNote)
             updateRequest(consts.PATH_SERVER + `/notes/${this.$data.note.id}`, updatedNote)
+        },
+        closeNote() {
+            this.$router.push({ name: 'toMain' })
+        },
+        editStatus(newStatus) {
+            this.$data.statusNote = newStatus
+            this.saveNote()
+            this.$router.push({ name: 'toMain' })
+        },
+        checkAttributesFilld(nextStatus) {
+            let errorString = 'Не заполнены следующие поля: '
+
+            if (nextStatus == 'onAgreed') {
+                if (this.$data.executorNote.length == 0) {
+                    this.$data.emptyAttributes.push('Исполнитель')
+                }
+                if (this.$data.whomNote.length == 0) {
+                    this.$data.emptyAttributes.push('Кому')
+                }
+                if (this.$data.coordinatorNote.length == 0) {
+                    this.$data.emptyAttributes.push('Согласующий')
+                }
+                if (this.$data.emptyAttributes.length == 0) {
+                    return true
+                } 
+                if(this.$data.emptyAttributes.length > 0) {
+                    for (let i = 0; i < this.$data.emptyAttributes.length; i++) {
+                        errorString = errorString + this.$data.emptyAttributes[i] + ' '
+                    }
+                    alert(errorString)
+                    console.log(errorString)
+                    this.$data.emptyAttributes = []
+                    return false
+                }
+            }
+            if (nextStatus == 'onRegistered') {
+                if (this.$data.executorNote.length == 0) {
+                    this.$data.emptyAttributes.push('Исполнитель')
+                }
+                if (this.$data.whomNote.length == 0) {
+                    this.$data.emptyAttributes.push('Кому')
+                }
+                if (this.$data.registratorNote.length == 0) {
+                    this.$data.emptyAttributes.push('Регистратор')
+                }
+                if (this.$data.emptyAttributes.length == 0) {
+                    return true
+                } else {
+                    for (let i = 0; i < this.$data.emptyAttributes.length; i++) {
+                        errorString = errorString + this.$data.emptyAttributes[i] + ' '
+                    }
+                    alert(errorString)
+                    console.log(errorString)
+                    this.$data.emptyAttributes = []
+                    return false
+                }
+            }
+            if (nextStatus == 'registered') {
+                if (this.$data.regNumberNote.length == 0) {
+                    this.$data.emptyAttributes.push('Рег. номер')
+                }
+                if (this.$data.emptyAttributes.length == 0) {
+                    return true
+                } else {
+                    for (let i = 0; i < this.$data.emptyAttributes.length; i++) {
+                        errorString = errorString + this.$data.emptyAttributes[i] + ' '
+                    }
+                    alert(errorString)
+                    console.log(errorString)
+                    this.$data.emptyAttributes = []
+                    return false
+                }
+            }
+            if (nextStatus == 'onFinalize') {
+                if (this.$data.commentNote.length == 0) {
+                    this.$data.emptyAttributes.push('Комментарий')
+                }
+                if (this.$data.emptyAttributes.length == 0) {
+                    return true
+                } else {
+                    for (let i = 0; i < this.$data.emptyAttributes.length; i++) {
+                        errorString = errorString + this.$data.emptyAttributes[i] + ' '
+                    }
+                    alert(errorString)
+                    console.log(errorString)
+                    this.$data.emptyAttributes = []
+                    return false
+                }
+            }
+        },
+        clickControlButton1() {
+            if (this.$data.statusNote == 'created') {
+                if (this.checkAttributesFilld('onAgreed')) {
+                    this.editStatus('onAgreed')
+                }
+                return
+            }
+            if (this.$data.statusNote == 'onFinalize') {
+                if (this.checkAttributesFilld('onAgreed')) {
+                    this.editStatus('onAgreed')
+                }
+                return
+            }
+            if (this.$data.statusNote == 'onAgreed') {
+                if (this.checkAttributesFilld('onFinalize')) {
+                    this.editStatus('onFinalize')
+                }
+                return
+            }
+            if (this.$data.statusNote == 'onSigned') {
+                if (this.checkAttributesFilld('onFinalize')) {
+                    this.editStatus('onFinalize')
+                }
+                return
+            }
+            if (this.$data.statusNote == 'signed') {
+                if (this.checkAttributesFilld('onFinalize')) {
+                    this.editStatus('onFinalize')
+                }
+                return
+            }
+            if (this.$data.statusNote == 'onRegistered') {
+                if (this.checkAttributesFilld('onFinalize')) {
+                    this.editStatus('onFinalize')
+                }
+                return
+            }
+            if (this.$data.statusNote == 'agreed') {
+                alert("Данная записка уже согласована")
+                return
+            }
+            if (this.$data.statusNote == 'registered') {
+                alert("Данная записка уже согласована")
+                return
+            }
+        },
+        clickControlButton2() {
+            if (this.$data.statusNote == 'created') {
+                alert("Нельзя отправить на регистрацию без согласования")
+                return
+            }
+            if (this.$data.statusNote == 'onFinalize') {
+                alert("Нельзя отправить на регистрацию без согласования")
+                return
+            }
+            if (this.$data.statusNote == 'onAgreed') {
+                if (this.$data.signerNote.length > 0) {
+                    this.editStatus('onSigned')
+                } else {
+                    this.editStatus('agreed')
+                }
+                return
+            }
+            if (this.$data.statusNote == 'onSigned') {
+                this.editStatus('signed')
+                return
+            }
+            if (this.$data.statusNote == 'signed') {
+                if (this.checkAttributesFilld('onRegistered')) {
+                    console.log("registered")
+                    this.editStatus('onRegistered')
+                }
+                return
+            }
+            if (this.$data.statusNote == 'onRegistered') {
+                if(this.checkAttributesFilld('registered')) {
+                    this.editStatus('registered')
+                }
+                return
+            }
+            if (this.$data.statusNote == 'agreed') {
+                if (this.checkAttributesFilld('onRegistered')) {
+                    this.editStatus('onRegistered')
+                }
+                return
+            }
+            if (this.$data.statusNote == 'registered') {
+                alert("Данная записка уже зарегистрирована")
+                return
+            }
+        },
+        getNote() {
+            if (this.$data.note == null) {
+                this.$data.note = this.noteStore.getNoteByNumber(this.$route.params.id)
+                this.$data.statusNote = this.$data.note.status
+                this.$data.numberNote = this.$data.note.number
+                this.$data.createDataNote = this.$data.note.createData
+                this.$data.regNumberNote = this.$data.note.regNumber
+                this.$data.regDataNote = this.$data.note.regData
+                this.$data.summaryNote = this.$data.note.summary
+                this.$data.whomNote = this.$data.note.whom
+                this.$data.executorNote = this.$data.note.executor
+                this.$data.coordinatorNote = this.$data.note.coordinator
+                this.$data.signerNote = this.$data.note.signer
+                this.$data.registratorNote = this.$data.note.registrator
+                this.$data.commentNote = this.$data.note.comment
+                this.$data.descriptionNote = this.$data.note.description
+            }
         },
         checkActionsWithStatus(numberButton) {
             if ((this.statusNote == 'created' || this.statusNote == 'onFinalize' || this.statusNote == 'agreed' || this.statusNote == 'signed') && this.userStore.loginUser.login == this.executorNote) {
