@@ -77,7 +77,7 @@
         <div class="noteEditInputBox">
             <p class="descriptionInputBoxText">Комментарий </p>
             <input type="text" class="noteEditInput noteEditLongInput" v-model="commentNote"
-                :disabled="isRegistrator && isExecutor && isCoordinator && isRegistrator">
+                :disabled="isRegistrator && isExecutor && isCoordinator && isSigner">
         </div>
     </div>
     <div class="noteEditButtonControlPanel">

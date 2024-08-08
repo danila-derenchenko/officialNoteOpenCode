@@ -39,7 +39,7 @@
   "notes": [
     {
       "number": "1",
-      "status": "onSigned",
+      "status": "onFinalize",
       "createData": "25.03.2024",
       "regNumber": "67/7",
       "regData": "",
@@ -50,9 +50,31 @@
       "signer": "signerDasha@mail.ru",
       "registrator": "registrator@mail.ru",
       "description": "",
-      "comment": "",
+      "comment": "wwcwdsavdafvewqf",
       "id": "b90hj"
+    },
+    {
+      "id": "1a5d",
+      "number": 4,
+      "status": "created",
+      "createData": "2024-7-8",
+      "regNumber": "",
+      "regData": "",
+      "summary": "",
+      "whom": "",
+      "executor": "executor@mail.ru",
+      "coordinator": "",
+      "signer": "",
+      "registrator": "",
+      "description": "",
+      "comment": ""
     }
   ],
-  "numbers": 2
+  "numbers": [
+    {
+      "type": "number",
+      "id": "g243",
+      "number": 5
+    }
+  ]
 }

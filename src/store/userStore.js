@@ -75,6 +75,9 @@ export const useNoteStore = defineStore('noteStore', {
         addNotes(notes) {
             this.$state.notes = notes
         },
+        addNote(note) {
+            this.$state.notes.push(note)
+        },
         updateNote(id, data) {
             for(let i = 0; i < this.notes.length; i++) {
                 if(this.notes[i].id == id) {
