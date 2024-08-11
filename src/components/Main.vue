@@ -14,7 +14,7 @@
             v-on:click="createNote()">Создать</button>
         <button :disabled="buttonSelectDisabled" class="mainButtonCreateEditDelete"
             v-on:click="onClickEditButton">Редактировать</button>
-        <button :disabled="buttonSelectDisabled" class="mainButtonCreateEditDelete">Удалить</button>
+        <button :disabled="buttonCreateDisabled || buttonSelectDisabled" v-on:click="deleteNote" class="mainButtonCreateEditDelete">Удалить</button>
     </div>
     <div class="mainTableNotes">
         <TableNotes @selectNote="selectNote" />
@@ -25,7 +25,7 @@
 import { useNoteStore, useUserStore } from '../store/userStore';
 import { router } from '../router/router';
 import TableNotes from './TableNotes.vue';
-import { getRequest, postRequest, updateRequest } from '../API/requests';
+import { deleteRequest, getRequest, postRequest, updateRequest } from '../API/requests';
 import { consts } from '../consts';
 
 export default {
@@ -35,7 +35,7 @@ export default {
             userStore: useUserStore(),
             buttonSelectDisabled: true,
             buttonCreateDisabled: true,
-            selectedNoteId: null,
+            selectedNoteId: null, // здесь под id подразумевается поле number записки
             noteStore: useNoteStore()
         }
     },
@@ -76,6 +76,13 @@ export default {
                     number: res[0].number + 1
                 })
             })
+        },
+        deleteNote() {
+            if(this.noteStore.getNoteByNumber(this.$data.selectedNoteId).executor == this.userStore.loginUser.login) {
+                this.noteStore.deleteNote(this.$data.selectedNoteId)
+            } else {
+                alert("Записку может удалить только тот пользователь, который её создал")
+            }
         },
         getNowDate() {
             const time = new Date()

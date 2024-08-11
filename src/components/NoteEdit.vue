@@ -89,7 +89,7 @@
                 :class="['noteEditButtonControlPanelButton', { 'noteEditButtonControlPanelButtonGreen': isButtonGreenClass == true }]">{{
                     checkActionsWithStatus('2') }}</button>
         </div>
-        <button class="noteEditButtonControlPanelButton">Печать</button>
+        <button class="noteEditButtonControlPanelButton" v-on:click="printNote(signerNote, signerNote, signerNote, signerNote, executorNote)">Печать</button>
         <div class="noteEditButtonControlPanelBox">
             <button class="noteEditButtonControlPanelButton" v-on:click="closeNote()">Закрыть</button>
             <button class="noteEditButtonControlPanelButton" v-on:click="saveNote()">Сохранить</button>
@@ -171,13 +171,13 @@ export default {
         },
         getNowDate() {
             const time = new Date()
-            if(time.getMonth() < 10 && time.getDate() > 10) {
+            if (time.getMonth() < 10 && time.getDate() > 10) {
                 return `${time.getFullYear()}-0${time.getMonth()}-${time.getDate()}`
             }
-            else if(time.getMonth() > 10 && time.getDate() < 10) {
+            else if (time.getMonth() > 10 && time.getDate() < 10) {
                 return `${time.getFullYear()}-${time.getMonth()}-0${time.getDate()}`
             }
-            else if(time.getMonth() < 10 && time.getDate() < 10) {
+            else if (time.getMonth() < 10 && time.getDate() < 10) {
                 return `${time.getFullYear()}-0${time.getMonth()}-0${time.getDate()}`
             } else {
                 return `${time.getFullYear()}-${time.getMonth()}-${time.getDate()}`
@@ -206,8 +206,8 @@ export default {
                 }
                 if (this.$data.emptyAttributes.length == 0) {
                     return true
-                } 
-                if(this.$data.emptyAttributes.length > 0) {
+                }
+                if (this.$data.emptyAttributes.length > 0) {
                     for (let i = 0; i < this.$data.emptyAttributes.length; i++) {
                         errorString = errorString + this.$data.emptyAttributes[i] + ' '
                     }
@@ -347,7 +347,7 @@ export default {
                 return
             }
             if (this.$data.statusNote == 'onRegistered') {
-                if(this.checkAttributesFilld('registered')) {
+                if (this.checkAttributesFilld('registered')) {
                     this.regDataNote = this.getNowDate()
                     this.editStatus('registered')
                 }

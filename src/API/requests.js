@@ -12,3 +12,7 @@ export const updateRequest = async (url, data) => {
 export const postRequest = async (url, data) => {
     const res = await axios.post(url, data)
 }
+
+export const deleteRequest = async (url) => {
+    await axios.delete(url)
+}

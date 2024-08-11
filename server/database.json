@@ -8,6 +8,13 @@
       "password": "12345678"
     },
     {
+      "username": "Иванов Данила",
+      "id": "b456d",
+      "role": "executor",
+      "login": "executor23@mail.ru",
+      "password": "12345678"
+    },
+    {
       "username": "Иванова Дарья",
       "id": "b45e",
       "role": "signer",
@@ -19,6 +26,13 @@
       "id": "b80e",
       "role": "registrator",
       "login": "registrator@mail.ru",
+      "password": "12345678"
+    },
+    {
+      "username": "Быстров Денис",
+      "id": "b56df",
+      "role": "registrator",
+      "login": "registrator5@mail.ru",
       "password": "12345678"
     },
     {
@@ -34,47 +48,38 @@
       "role": "coordinator",
       "login": "coordinator@mail.ru",
       "password": "12345678"
+    },
+    {
+      "username": "Пономаренко Денис",
+      "id": "b26hd",
+      "role": "coordinator",
+      "login": "coordinator7@mail.ru",
+      "password": "12345678"
     }
   ],
   "notes": [
     {
-      "number": 1,
-      "status": "onFinalize",
-      "createData": "25.03.2024",
-      "regNumber": "67/7",
+      "id": "a38c",
+      "number": 3,
+      "status": "created",
+      "createData": "2024-07-12",
+      "regNumber": "",
       "regData": "",
       "summary": "",
-      "whom": "npn",
+      "whom": "",
       "executor": "executor@mail.ru",
-      "coordinator": "coordinator@mail.ru",
-      "signer": "signerDasha@mail.ru",
-      "registrator": "registrator@mail.ru",
+      "coordinator": "",
+      "signer": "",
+      "registrator": "",
       "description": "",
-      "comment": "wwcwdsavdafvewqf",
-      "id": "b90hj"
-    },
-    {
-      "number": 2,
-      "status": "registered",
-      "createData": "2024-07-11",
-      "regNumber": "67/5",
-      "regData": "2024-07-11",
-      "summary": "",
-      "whom": ",rs[mbo[ewr",
-      "executor": "executor@mail.ru",
-      "coordinator": "coordinator@mail.ru",
-      "signer": "signerDasha@mail.ru",
-      "registrator": "registrator@mail.ru",
-      "description": "",
-      "comment": "",
-      "id": "bd15"
+      "comment": ""
     }
   ],
   "numbers": [
     {
       "type": "number",
       "id": "g243",
-      "number": 3
+      "number": 9
     }
   ]
 }

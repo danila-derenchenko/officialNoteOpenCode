@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getRequest } from "../API/requests";
+import { deleteRequest, getRequest } from "../API/requests";
 import { consts } from "../consts";
 
 // После окончания разработки убрать фиксированно залогиненного юзера
@@ -82,6 +82,14 @@ export const useNoteStore = defineStore('noteStore', {
             for(let i = 0; i < this.notes.length; i++) {
                 if(this.notes[i].id == id) {
                     this.notes[i] = data
+                }
+            }
+        },
+        deleteNote(number) {
+            for(let i = 0; i < this.notes.length; i++) {
+                if(this.notes[i].number == number) {
+                    deleteRequest(consts.PATH_SERVER + `/notes/${this.notes[i].id}`)
+                    this.notes.splice(i, 1)
                 }
             }
         },
