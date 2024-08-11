@@ -169,6 +169,20 @@ export default {
             this.$data.noteStore.updateNote(this.$data.note.id, updatedNote)
             updateRequest(consts.PATH_SERVER + `/notes/${this.$data.note.id}`, updatedNote)
         },
+        getNowDate() {
+            const time = new Date()
+            if(time.getMonth() < 10 && time.getDate() > 10) {
+                return `${time.getFullYear()}-0${time.getMonth()}-${time.getDate()}`
+            }
+            else if(time.getMonth() > 10 && time.getDate() < 10) {
+                return `${time.getFullYear()}-${time.getMonth()}-0${time.getDate()}`
+            }
+            else if(time.getMonth() < 10 && time.getDate() < 10) {
+                return `${time.getFullYear()}-0${time.getMonth()}-0${time.getDate()}`
+            } else {
+                return `${time.getFullYear()}-${time.getMonth()}-${time.getDate()}`
+            }
+        },
         closeNote() {
             this.$router.push({ name: 'toMain' })
         },
@@ -334,6 +348,7 @@ export default {
             }
             if (this.$data.statusNote == 'onRegistered') {
                 if(this.checkAttributesFilld('registered')) {
+                    this.regDataNote = this.getNowDate()
                     this.editStatus('registered')
                 }
                 return

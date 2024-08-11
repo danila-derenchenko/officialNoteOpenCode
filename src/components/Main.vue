@@ -53,11 +53,10 @@ export default {
     methods: {
         createNote() {
             getRequest(consts.PATH_SERVER + '/numbers?type=number').then(res => {
-                const time = new Date()
                 const note = {
                     number: res[0].number,
                     status: 'created',
-                    createData: `${time.getFullYear()}-${time.getMonth()}-${time.getDate()}`,
+                    createData: this.getNowDate(),
                     regNumber: '',
                     regData: '',
                     summary: '',
@@ -77,6 +76,20 @@ export default {
                     number: res[0].number + 1
                 })
             })
+        },
+        getNowDate() {
+            const time = new Date()
+            if(time.getMonth() < 10 && time.getDate() > 10) {
+                return `${time.getFullYear()}-0${time.getMonth()}-${time.getDate()}`
+            }
+            else if(time.getMonth() > 10 && time.getDate() < 10) {
+                return `${time.getFullYear()}-${time.getMonth()}-0${time.getDate()}`
+            }
+            else if(time.getMonth() < 10 && time.getDate() < 10) {
+                return `${time.getFullYear()}-0${time.getMonth()}-0${time.getDate()}`
+            } else {
+                return `${time.getFullYear()}-${time.getMonth()}-${time.getDate()}`
+            }
         },
         getRole() {
             console.log(this.$data.userStore.loginUser)

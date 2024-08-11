@@ -38,7 +38,7 @@
   ],
   "notes": [
     {
-      "number": "1",
+      "number": 1,
       "status": "onFinalize",
       "createData": "25.03.2024",
       "regNumber": "67/7",
@@ -54,27 +54,27 @@
       "id": "b90hj"
     },
     {
-      "id": "1a5d",
-      "number": 4,
-      "status": "created",
-      "createData": "2024-7-8",
-      "regNumber": "",
-      "regData": "",
+      "number": 2,
+      "status": "registered",
+      "createData": "2024-07-11",
+      "regNumber": "67/5",
+      "regData": "2024-07-11",
       "summary": "",
-      "whom": "",
+      "whom": ",rs[mbo[ewr",
       "executor": "executor@mail.ru",
-      "coordinator": "",
-      "signer": "",
-      "registrator": "",
+      "coordinator": "coordinator@mail.ru",
+      "signer": "signerDasha@mail.ru",
+      "registrator": "registrator@mail.ru",
       "description": "",
-      "comment": ""
+      "comment": "",
+      "id": "bd15"
     }
   ],
   "numbers": [
     {
       "type": "number",
       "id": "g243",
-      "number": 5
+      "number": 3
     }
   ]
 }
